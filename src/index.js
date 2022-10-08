@@ -7,6 +7,7 @@ const port = 3000 || process.env.PORT;
 
 // Include routes
 const productRouter = require("./routes/products");
+const platformRouter = require("./routes/platforms");
 
 // Include config files
 const status = require("./configs/status");
@@ -43,6 +44,7 @@ app.use(middleware);
 
 // // Routes
 app.use("/products", productRouter);
+app.use("/platforms", platformRouter);
 
 // Catch 404s
 app.use((req, res, next) => {

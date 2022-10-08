@@ -5,7 +5,7 @@ const wrap = (inputFunction) => {
     try {
       return await inputFunction.apply(this, arguments);
     } catch (e) {
-      //     console.log(e);
+           console.log(e);
       let cb;
 
       if (arguments.length !== 1) {
