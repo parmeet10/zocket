@@ -17,6 +17,7 @@ const database = require("./database/sql");
 const isDeveloping = process.env.NODE_ENV === "development";
 
 //include middleware
+const middleware = require("./middleware/middleware");
 
 // Make DB connections
 const dbSelfCheck = async () => {
@@ -37,6 +38,7 @@ app.get("/ping", (req, res) => {
 });
 
 // middlware
+app.use(middleware);
 
 // // Routes
 
