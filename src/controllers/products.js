@@ -17,7 +17,9 @@ const createProduct = async (req, res, next) => {
 
 const getProducts = async (req, res, next) => {
   let productsParams = {};
-  req.query.productId ? (productsParams.productId = req.query.productId) : null;
+  req.query.productId
+    ? (productsParams.productId = parseInt(req.query.productId))
+    : null;
 
   let result = await productService.getProducts(productsParams);
 

@@ -38,7 +38,7 @@ const getStatus = (code) => {
       status = {
         code: code,
         error: true,
-        message: "Authentication failed.",
+        message: "Authorisation failed.",
       };
       break;
     case "invalid_token":
@@ -46,6 +46,14 @@ const getStatus = (code) => {
         code: code,
         error: true,
         message: "Invalid token",
+      };
+      break;
+
+    case "invalid_date":
+      status = {
+        code: code,
+        error: true,
+        message: "Invalid Date",
       };
       break;
 

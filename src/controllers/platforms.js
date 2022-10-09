@@ -19,7 +19,7 @@ const getPlatforms = async (req, res, next) => {
   let platformsParams = {};
 
   req.query.platformId
-    ? (platformsParams.platformId = req.query.platformId)
+    ? (platformsParams.platformId = parseInt(req.query.platformId))
     : null;
 
   let result = await platformService.getPlatforms(platformsParams);
