@@ -34,6 +34,18 @@ const getCampaigns = async (req, res, next) => {
   req.query.campaignId
     ? (campaignParams.campaignId = req.query.campaignId)
     : null;
+  req.query.platformId
+    ? (campaignParams.platformId = req.query.platformId)
+    : null;
+  req.query.status
+    ? (campaignParams.status = req.query.status.toLowerCase())
+    : null;
+  req.query.from
+    ? (campaignParams.from = new Date(req.query.from).toISOString())
+    : null;
+  req.query.to
+    ? (campaignParams.to = new Date(req.query.to).toISOString())
+    : null;
 
   let result = await campaignService.getCampaigns(campaignParams);
 

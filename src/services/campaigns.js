@@ -62,6 +62,18 @@ const createCampaign = async (params) => {
 const getCampaigns = async (params) => {
   campaignParams = {};
   params.campaignId ? (campaignParams.campaignId = params.campaignId) : null;
+  params.platformId ? (campaignParams.platformId = params.platformId) : null;
+  params.from
+    ? (campaignParams.from = new Date(params.from).toISOString())
+    : null;
+  params.to ? (campaignParams.to = new Date(params.to).toISOString()) : null;
+
+  if (params.status) {
+    if (params.status !== "live" && params.status !== "exhausted") {
+      throw new Error("authn_fail");
+    }
+    campaignParams.status = params.status;
+  }
 
   let campaigns = await campaignsModel.getCampaigns(campaignParams);
 
