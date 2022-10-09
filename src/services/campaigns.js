@@ -48,7 +48,7 @@ const createCampaign = async (params) => {
   campaignParams.productId = params.productId;
   campaignParams.platformId = params.platformId;
   campaignParams.location = params.location;
-  campaignParams.status = "live"; // DANGEROUS ASSUMPTION 
+  campaignParams.status = "live"; // DANGEROUS ASSUMPTION
 
   const campaignId = await campaignsModel.createCampaign(campaignParams);
 
@@ -58,6 +58,54 @@ const createCampaign = async (params) => {
 
   return response;
 };
+
+const getCampaigns = async (params) => {
+  campaignParams = {};
+  params.campaignId ? (campaignParams.campaignId = params.campaignId) : null;
+
+  let campaigns = await campaignsModel.getCampaigns(campaignParams);
+
+  for (let key of campaigns) {
+    if (key.endDate < new Date() && key.status == "live") {
+      key.status = "exhausted";
+
+      let updateCampaignParams = {};
+      updateCampaignParams.campaignId = key.id;
+      updateCampaignParams.status = "exhausted";
+
+      updateCampaign(updateCampaignParams);
+    }
+  }
+
+  let response = status.getStatus("success");
+  response.data = {};
+  response.data.campaigns = campaigns;
+
+  return response;
+};
+
+const updateCampaign = async (params) => {
+  if (!params.campaignId) {
+    throw new Error("input_missing");
+  }
+
+  let updateCampaignParams = {};
+  updateCampaignParams.campaignId = params.campaignId;
+
+  params.status ? (updateCampaignParams.status = params.status) : null;
+
+  await campaignsModel.updateCampaign(updateCampaignParams);
+
+  let updatedCampaign = await getCampaigns(updateCampaignParams);
+
+  let response = status.getStatus("success");
+  response.data = {};
+  response.data.updatedCampaign = updatedCampaign;
+
+  return response;
+};
 module.exports = {
   createCampaign: wrapperService.wrap(createCampaign),
+  getCampaigns: wrapperService.wrap(getCampaigns),
+  updateCampaign: wrapperService.wrap(updateCampaign),
 };

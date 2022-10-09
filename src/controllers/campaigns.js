@@ -29,6 +29,18 @@ const createCampaign = async (req, res, next) => {
   return res.json(result);
 };
 
+const getCampaigns = async (req, res, next) => {
+  let campaignParams = {};
+  req.query.campaignId
+    ? (campaignParams.campaignId = req.query.campaignId)
+    : null;
+
+  let result = await campaignService.getCampaigns(campaignParams);
+
+  return res.json(result);
+};
+
 module.exports = {
   createCampaign: wrapperService.wrap(createCampaign),
+  getCampaigns: wrapperService.wrap(getCampaigns),
 };
