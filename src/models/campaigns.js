@@ -52,9 +52,8 @@ const getCampaigns = async (params) => {
     .innerJoin("products as p", { "p.id": "c.product_id" });
 
   params.campaignId ? getCampaignsQuery.where("c.id", params.campaignId) : null;
-  params.platformId
-    ? getCampaignsQuery.where("pf.id", params.platformId)
-    : null;
+  params.platformId ? getCampaignsQuery.where("pf.id", params.platformId) : null;
+  params.hasOwnProperty('active') ? getCampaignsQuery.where('c.active', params.active) : null;
   params.status ? getCampaignsQuery.where("c.status", params.status) : null;
   params.from ? getCampaignsQuery.where("c.start", ">", params.from) : null;
   params.to ? getCampaignsQuery.where("c.end", "<", params.to) : null;

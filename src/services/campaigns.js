@@ -63,6 +63,10 @@ const getCampaigns = async (params) => {
   campaignParams = {};
   params.campaignId ? (campaignParams.campaignId = params.campaignId) : null;
   params.platformId ? (campaignParams.platformId = params.platformId) : null;
+
+  params.hasOwnProperty("active")
+    ? (campaignParams.active = params.active)
+    : null;
   params.from
     ? (campaignParams.from = new Date(params.from).toISOString())
     : null;

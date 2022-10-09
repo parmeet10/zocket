@@ -46,6 +46,9 @@ const getCampaigns = async (req, res, next) => {
   req.query.to
     ? (campaignParams.to = new Date(req.query.to).toISOString())
     : null;
+  req.query.hasOwnProperty("active")
+    ? (campaignParams.active = req.query.active)
+    : null;
 
   let result = await campaignService.getCampaigns(campaignParams);
 
