@@ -93,14 +93,21 @@ const updateCampaign = async (params) => {
   updateCampaignParams.campaignId = params.campaignId;
 
   params.status ? (updateCampaignParams.status = params.status) : null;
+  params.hasOwnProperty("active")
+    ? (updateCampaignParams.active = params.active)
+    : null;
 
   await campaignsModel.updateCampaign(updateCampaignParams);
 
   let updatedCampaign = await getCampaigns(updateCampaignParams);
 
+  if (!updatedCampaign.data.campaigns.length) {
+    throw new Error("authn_fail");
+  }
+
   let response = status.getStatus("success");
   response.data = {};
-  response.data.updatedCampaign = updatedCampaign;
+  response.data.updatedCampaign = updatedCampaign.data.campaigns;
 
   return response;
 };

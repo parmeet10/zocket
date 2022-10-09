@@ -40,7 +40,24 @@ const getCampaigns = async (req, res, next) => {
   return res.json(result);
 };
 
+const updateCampaign = async (req, res, next) => {
+  if (!req.query.campaignId) {
+    throw new Error("input_missing");
+  }
+
+  let campaignParams = {};
+  campaignParams.campaignId = req.query.campaignId;
+  req.body.hasOwnProperty("active")
+    ? (campaignParams.active = req.body.active)
+    : null;
+
+  let result = await campaignService.updateCampaign(campaignParams);
+
+  return res.json(result);
+};
+
 module.exports = {
   createCampaign: wrapperService.wrap(createCampaign),
   getCampaigns: wrapperService.wrap(getCampaigns),
+  updateCampaign: wrapperService.wrap(updateCampaign),
 };

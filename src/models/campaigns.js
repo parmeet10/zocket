@@ -65,6 +65,7 @@ const updateCampaign = async (params) => {
 
   let _update = { updated_at: new Date() };
   params.status ? (_update["status"] = params.status) : null;
+  params.hasOwnProperty("active") ? (_update["active"] = params.active) : null;
 
   let updateCampaignQuery = database
     .knex("campaigns")
