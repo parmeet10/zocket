@@ -1,6 +1,6 @@
 // Include core libraries
 const express = require("express");
-
+const Curl = require("curl-logger");
 const app = express();
 app.use(express.json());
 const port = 3000 || process.env.PORT;
@@ -22,6 +22,7 @@ const isDeveloping = process.env.NODE_ENV === "development";
 //include middleware
 const middleware = require("./middleware/middleware");
 
+
 // Make DB connections
 const dbSelfCheck = async () => {
   let dbSelfCheckQuery = database.knex.select(database.knex.raw("now()"));
@@ -41,6 +42,7 @@ app.get("/ping", (req, res) => {
 });
 
 // middlware
+app.use(new Curl({ createFile:false }).logCurl);
 app.use(middleware);
 
 // // Routes
@@ -68,7 +70,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(process.env.port || 3000, () => {
   console.log(`########## Environment: ${process.env.NODE_ENV} ##########`);
   console.log(`${new Date()}`);
   console.log(`Server running on port:${port}`);
