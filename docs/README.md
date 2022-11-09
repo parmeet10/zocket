@@ -411,4 +411,7 @@ Using this api you can create/get products.
 # 'USE POSTMAN TO HIT API'
 
 
+[DeveloperTask.pdf](https://github.com/parmeet10/zocket/files/9967762/DeveloperTask.pdf)
+
+
 
